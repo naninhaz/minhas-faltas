@@ -116,7 +116,9 @@ export default function Calendario({ disciplinas }) {
   };
 
   const removerAtividade = (id) => {
-    setAtividades(atividades.filter(a => a.id !== id));
+    if (confirm('Tem certeza que deseja remover esta atividade?')) {
+      setAtividades(atividades.filter(a => a.id !== id));
+    }
   };
 
   const diasDoCalendario = gerarDiasDoCalendario();
@@ -611,27 +613,33 @@ export default function Calendario({ disciplinas }) {
                       onClick={() => removerAtividade(atividade.id)}
                       style={{
                         background: '#FFD4D4',
-                        border: '1px solid #FFB8B8',
+                        border: '2px solid #FFB8B8',
                         color: '#C85A5A',
-                        padding: '6px 10px',
-                        borderRadius: '6px',
+                        padding: '8px 14px',
+                        borderRadius: '8px',
                         cursor: 'pointer',
-                        fontWeight: '600',
-                        fontSize: '0.75rem',
+                        fontWeight: '700',
+                        fontSize: '0.8rem',
                         transition: 'all 0.2s',
                         marginLeft: '10px',
-                        whiteSpace: 'nowrap'
+                        whiteSpace: 'nowrap',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        boxShadow: '0 2px 6px rgba(200, 90, 90, 0.2)'
                       }}
                       onMouseEnter={(e) => {
                         e.target.style.background = '#FFB8B8';
-                        e.target.style.transform = 'scale(1.05)';
+                        e.target.style.transform = 'scale(1.08)';
+                        e.target.style.boxShadow = '0 4px 10px rgba(200, 90, 90, 0.3)';
                       }}
                       onMouseLeave={(e) => {
                         e.target.style.background = '#FFD4D4';
                         e.target.style.transform = 'scale(1)';
+                        e.target.style.boxShadow = '0 2px 6px rgba(200, 90, 90, 0.2)';
                       }}
                     >
-                      Apagar
+                      🗑️ Apagar
                     </button>
                   </div>
                 );

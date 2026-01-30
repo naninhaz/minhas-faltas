@@ -139,17 +139,19 @@ export default function GerenciadorFaltas() {
   };
 
   const removerFalta = (disciplinaId, faltaId) => {
-    setDisciplinas(disciplinas.map(d => {
-      if (d.id === disciplinaId) {
-        const falta = d.faltas.find(f => f.id === faltaId);
-        return {
-          ...d,
-          horasFaltadas: d.horasFaltadas - falta.horas,
-          faltas: d.faltas.filter(f => f.id !== faltaId)
-        };
-      }
-      return d;
-    }));
+    if (confirm('Tem certeza que deseja remover esta falta?')) {
+      setDisciplinas(disciplinas.map(d => {
+        if (d.id === disciplinaId) {
+          const falta = d.faltas.find(f => f.id === faltaId);
+          return {
+            ...d,
+            horasFaltadas: d.horasFaltadas - falta.horas,
+            faltas: d.faltas.filter(f => f.id !== faltaId)
+          };
+        }
+        return d;
+      }));
+    }
   };
 
   const removerDisciplina = (id) => {
