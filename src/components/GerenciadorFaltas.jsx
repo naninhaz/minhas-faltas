@@ -488,7 +488,7 @@ export default function GerenciadorFaltas() {
     <div style={{
       minHeight: '100vh',
       background: 'linear-gradient(135deg, #F3E5F5 0%, #E8D5F2 50%, #FCE4EC 100%)',
-      padding: '20px',
+      padding: 'clamp(15px, 5vw, 20px)',
       fontFamily: '"DM Sans", -apple-system, sans-serif'
     }}>
       <style>{`
@@ -550,6 +550,39 @@ export default function GerenciadorFaltas() {
         .modal-content {
           animation: slideIn 0.3s ease-out;
         }
+
+        @media (max-width: 768px) {
+          h1 {
+            font-size: 2rem !important;
+          }
+
+          .card-disciplina {
+            padding: 18px !important;
+          }
+
+          .btn-acao {
+            width: 100%;
+          }
+        }
+
+        @media (max-width: 480px) {
+          h1 {
+            font-size: 1.5rem !important;
+          }
+
+          .card-disciplina {
+            padding: 15px !important;
+          }
+
+          button {
+            font-size: 0.85rem !important;
+            padding: 10px 14px !important;
+          }
+
+          input, select {
+            font-size: 16px !important;
+          }
+        }
       `}</style>
 
       <div style={{
@@ -563,7 +596,7 @@ export default function GerenciadorFaltas() {
         }}>
           <h1 style={{
             fontFamily: '"Space Mono", monospace',
-            fontSize: '3rem',
+            fontSize: 'clamp(1.5rem, 8vw, 3rem)',
             fontWeight: '700',
             color: '#6B4C8A',
             margin: '0 0 10px 0',
@@ -584,7 +617,7 @@ export default function GerenciadorFaltas() {
         <div style={{
           background: 'white',
           borderRadius: '20px',
-          padding: '30px',
+          padding: 'clamp(15px, 5vw, 30px)',
           marginBottom: '30px',
           boxShadow: '0 10px 30px rgba(200, 150, 220, 0.1)',
           animation: 'slideIn 0.6s ease-out 0.1s backwards'
@@ -600,7 +633,7 @@ export default function GerenciadorFaltas() {
           
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '2fr 1fr 1fr auto',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
             gap: '12px',
             alignItems: 'end'
           }}>

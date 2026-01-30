@@ -128,11 +128,49 @@ export default function Calendario({ disciplinas }) {
     <div style={{
       background: 'white',
       borderRadius: '20px',
-      padding: '30px',
+      padding: 'clamp(15px, 5vw, 30px)',
       boxShadow: '0 10px 30px rgba(200, 150, 220, 0.1)',
       marginBottom: '30px',
       animation: 'slideIn 0.6s ease-out 0.4s backwards'
     }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .dias-semana {
+            gap: 4px !important;
+          }
+
+          .dia-calendario {
+            font-size: 0.75rem !important;
+            padding: 4px !important;
+          }
+
+          .atividade-item {
+            flex-direction: column !important;
+            gap: 10px !important;
+          }
+
+          .atividade-item button {
+            width: 100% !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .dia-calendario {
+            font-size: 0.65rem !important;
+            aspect-ratio: 1 !important;
+            padding: 2px !important;
+          }
+
+          .dias-semana {
+            gap: 2px !important;
+          }
+
+          .atividade-item {
+            padding: 10px 12px !important;
+            flex-direction: column !important;
+          }
+        }
+      `}</style>
       <h2 style={{
         fontSize: '1.3rem',
         fontWeight: '700',
@@ -226,7 +264,8 @@ export default function Calendario({ disciplinas }) {
         gridTemplateColumns: 'repeat(7, 1fr)',
         gap: '8px',
         marginBottom: '20px'
-      }}>
+      }}
+      className="dias-semana">
         {diasSemana.map(dia => (
           <div
             key={dia}
@@ -247,6 +286,7 @@ export default function Calendario({ disciplinas }) {
         {diasDoCalendario.map((dia, index) => (
           <div
             key={index}
+            className="dia-calendario"
             onClick={() => dia !== null && abrirModalAtividade(dia)}
             style={{
               aspectRatio: '1',
@@ -371,11 +411,13 @@ export default function Calendario({ disciplinas }) {
             style={{
               background: 'white',
               borderRadius: '20px',
-              padding: '30px',
+              padding: 'clamp(20px, 5vw, 30px)',
               maxWidth: '500px',
-              width: '100%',
+              width: '90vw',
               boxShadow: '0 20px 60px rgba(200, 150, 220, 0.2)',
-              animation: 'slideIn 0.3s ease-out'
+              animation: 'slideIn 0.3s ease-out',
+              maxHeight: '85vh',
+              overflowY: 'auto'
             }}
           >
             <div style={{
@@ -583,6 +625,7 @@ export default function Calendario({ disciplinas }) {
                 return (
                   <div
                     key={atividade.id}
+                    className="atividade-item"
                     style={{
                       background: '#E8F0F5',
                       borderRadius: '10px',
