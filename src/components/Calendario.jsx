@@ -10,6 +10,13 @@ export default function Calendario({ disciplinas }) {
 
   const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
 
+  // Verificar se é dia de aula para alguma disciplina
+  const temDiaDeAulaHoje = (dia) => {
+    const data = new Date(mesAtual.getFullYear(), mesAtual.getMonth(), dia);
+    const diadasemana = data.getDay();
+    return disciplinas.some(d => d.diasAula && d.diasAula.includes(diadasemana === 0 ? 6 : diadasemana - 1));
+  };
+
   // Carregar atividades do localStorage
   useEffect(() => {
     const atividadesSalvas = localStorage.getItem('atividades-calendario');
@@ -228,10 +235,12 @@ export default function Calendario({ disciplinas }) {
               background: dia === null ? 'transparent' : 
                          temFaltaNaData(dia) && temAtividadeNaData(dia) ? '#FFD4D4' :
                          temFaltaNaData(dia) ? '#FFE8E8' :
-                         temAtividadeNaData(dia) ? '#E8F0F5' : '#F0E8F5',
+                         temAtividadeNaData(dia) ? '#E8F0F5' :
+                         temDiaDeAulaHoje(dia) ? '#F5E8F0' : '#F0E8F5',
               color: dia === null ? 'transparent' : temFaltaNaData(dia) ? '#C85A5A' : '#6B4C8A',
               border: temAtividadeNaData(dia) ? '2px solid #7CB9D4' : 
-                     temFaltaNaData(dia) ? '1px solid #E8A4A4' : '1px solid #E8D5F2',
+                     temFaltaNaData(dia) ? '1px solid #E8A4A4' : 
+                     temDiaDeAulaHoje(dia) ? '2px solid #D4ABDD' : '1px solid #E8D5F2',
               cursor: dia === null ? 'default' : 'pointer',
               transition: 'all 0.2s',
               position: 'relative',
@@ -260,6 +269,7 @@ export default function Calendario({ disciplinas }) {
                 <div style={{ display: 'flex', gap: '2px', justifyContent: 'center', flexWrap: 'wrap' }}>
                   {temFaltaNaData(dia) && <span style={{ fontSize: '0.8rem' }}>•</span>}
                   {temAtividadeNaData(dia) && <span style={{ fontSize: '0.8rem', color: '#7CB9D4' }}>✓</span>}
+                  {temDiaDeAulaHoje(dia) && <span style={{ fontSize: '0.8rem', color: '#D4ABDD' }}>📅</span>}
                 </div>
               </>
             )}

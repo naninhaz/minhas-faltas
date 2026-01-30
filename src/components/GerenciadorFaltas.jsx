@@ -25,7 +25,11 @@ export default function GerenciadorFaltas() {
   const [novaDisciplina, setNovaDisciplina] = useState('');
   const [totalHoras, setTotalHoras] = useState('');
   const [instituicao, setInstituicao] = useState('SENAI');
+  const [diasAula, setDiasAula] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const diasSemana = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+  const diasSemanaAbrev = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
   
   // Modal de adicionar falta
   const [modalAberto, setModalAberto] = useState(false);
@@ -84,11 +88,13 @@ export default function GerenciadorFaltas() {
         horasFaltadas: 0,
         instituicao: instituicao,
         horasPorFalta: horasPorFalta,
+        diasAula: diasAula,
         faltas: []
       };
       setDisciplinas([...disciplinas, nova]);
       setNovaDisciplina('');
       setTotalHoras('');
+      setDiasAula([]);
     }
   };
 
@@ -264,7 +270,8 @@ export default function GerenciadorFaltas() {
               gap: '15px',
               fontSize: '0.9rem',
               color: '#718096',
-              flexWrap: 'wrap'
+              flexWrap: 'wrap',
+              marginBottom: '10px'
             }}>
               <span>Total: {disciplina.totalHoras}h</span>
               <span>•</span>
@@ -272,6 +279,19 @@ export default function GerenciadorFaltas() {
               <span>•</span>
               <span>{percentual}% de ausência</span>
             </div>
+            {disciplina.diasAula && disciplina.diasAula.length > 0 && (
+              <div style={{
+                fontSize: '0.85rem',
+                color: '#6B4C8A',
+                fontWeight: '600',
+                background: '#F0E8F5',
+                padding: '8px 12px',
+                borderRadius: '6px',
+                display: 'inline-block'
+              }}>
+                📅 {disciplina.diasAula.map(d => diasSemanaAbrev[d]).join(', ')}
+              </div>
+            )}
           </div>
           
           <button
@@ -666,6 +686,66 @@ export default function GerenciadorFaltas() {
             >
               Adicionar
             </button>
+          </div>
+
+          <div style={{ marginTop: '20px' }}>
+            <label style={{
+              display: 'block',
+              fontSize: '0.85rem',
+              fontWeight: '600',
+              color: '#6B4C8A',
+              marginBottom: '10px'
+            }}>
+              Dias de Aula (opcional)
+            </label>
+            <div style={{
+              display: 'flex',
+              gap: '10px',
+              flexWrap: 'wrap'
+            }}>
+              {diasSemana.map((dia, index) => (
+                <label
+                  key={index}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '10px 15px',
+                    background: diasAula.includes(index) ? 'linear-gradient(135deg, #D4ABDD 0%, #E8D5F2 100%)' : '#F0E8F5',
+                    borderRadius: '10px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    border: '2px solid ' + (diasAula.includes(index) ? '#D4ABDD' : '#E8D5F2')
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#DCC0E8'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = diasAula.includes(index) ? 'linear-gradient(135deg, #D4ABDD 0%, #E8D5F2 100%)' : '#F0E8F5'}
+                >
+                  <input
+                    type="checkbox"
+                    checked={diasAula.includes(index)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setDiasAula([...diasAula, index]);
+                      } else {
+                        setDiasAula(diasAula.filter(d => d !== index));
+                      }
+                    }}
+                    style={{
+                      cursor: 'pointer',
+                      width: '16px',
+                      height: '16px'
+                    }}
+                  />
+                  <span style={{
+                    fontSize: '0.9rem',
+                    fontWeight: '600',
+                    color: diasAula.includes(index) ? 'white' : '#6B4C8A'
+                  }}>
+                    {diasSemanaAbrev[index]}
+                  </span>
+                </label>
+              ))}
+            </div>
           </div>
         </div>
 
