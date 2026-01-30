@@ -27,6 +27,7 @@ export default function GerenciadorFaltas() {
   const [instituicao, setInstituicao] = useState('SENAI');
   const [diasAula, setDiasAula] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [mensagemSalvo, setMensagemSalvo] = useState(false);
 
   const diasSemana = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
   const diasSemanaAbrev = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
@@ -63,9 +64,52 @@ export default function GerenciadorFaltas() {
   const salvarDados = async () => {
     try {
       await window.storage.set('disciplinas-faltas-v3', JSON.stringify(disciplinas));
+      setMensagemSalvo(true);
+      setTimeout(() => setMensagemSalvo(false), 2000);
     } catch (error) {
       console.error('Erro ao salvar:', error);
     }
+  };
+
+  const exportarDados = () => {
+    const dados = {
+      disciplinas,
+      atividades: JSON.parse(localStorage.getItem('atividades-calendario') || '[]'),
+      dataExportacao: new Date().toLocaleString('pt-BR')
+    };
+    
+    const dataStr = JSON.stringify(dados, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `minhas-faltas-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const importarDados = (evento) => {
+    const arquivo = evento.target.files[0];
+    if (!arquivo) return;
+
+    const leitor = new FileReader();
+    leitor.onload = (e) => {
+      try {
+        const dados = JSON.parse(e.target.result);
+        if (dados.disciplinas && Array.isArray(dados.disciplinas)) {
+          setDisciplinas(dados.disciplinas);
+          if (dados.atividades) {
+            localStorage.setItem('atividades-calendario', JSON.stringify(dados.atividades));
+          }
+          alert('✅ Dados importados com sucesso!');
+        } else {
+          alert('❌ Arquivo inválido. Verifique o formato.');
+        }
+      } catch (erro) {
+        alert('❌ Erro ao importar arquivo: ' + erro.message);
+      }
+    };
+    leitor.readAsText(arquivo);
   };
 
   // Calcula horas por falta baseado na instituição e total de horas
@@ -589,6 +633,27 @@ export default function GerenciadorFaltas() {
         maxWidth: '1200px',
         margin: '0 auto'
       }}>
+        {mensagemSalvo && (
+          <div style={{
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            background: 'linear-gradient(135deg, #48bb78 0%, #38a169 100%)',
+            color: 'white',
+            padding: '14px 20px',
+            borderRadius: '10px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+            fontSize: '0.95rem',
+            fontWeight: '700',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            animation: 'slideIn 0.3s ease-out',
+            zIndex: 9999
+          }}>
+            ✓ Dados salvos!
+          </div>
+        )}
         <div style={{
           textAlign: 'center',
           marginBottom: '40px',
@@ -948,9 +1013,74 @@ export default function GerenciadorFaltas() {
 
         {disciplinas.length > 0 && (
           <div style={{
-            marginTop: '30px',
-            textAlign: 'center'
+            display: 'flex',
+            gap: '12px',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            marginTop: '30px'
           }}>
+            <button
+              onClick={exportarDados}
+              style={{
+                padding: '12px 24px',
+                background: 'linear-gradient(135deg, #7CB9D4 0%, #A8D4E8 100%)',
+                color: 'white',
+                border: '2px solid #7CB9D4',
+                borderRadius: '12px',
+                fontSize: '0.9rem',
+                fontWeight: '700',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.boxShadow = '0 6px 16px rgba(124, 185, 212, 0.3)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = 'none';
+              }}
+            >
+              💾 Exportar Dados
+            </button>
+
+            <label style={{
+              padding: '12px 24px',
+              background: 'linear-gradient(135deg, #D4ABDD 0%, #E8D5F2 100%)',
+              color: 'white',
+              border: '2px solid #D4ABDD',
+              borderRadius: '12px',
+              fontSize: '0.9rem',
+              fontWeight: '700',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+              onMouseEnter={(e) => {
+                e.style.transform = 'translateY(-2px)';
+                e.style.boxShadow = '0 6px 16px rgba(180, 120, 200, 0.3)';
+              }}
+              onMouseLeave={(e) => {
+                e.style.transform = 'translateY(0)';
+                e.style.boxShadow = 'none';
+              }}
+            >
+              📂 Importar Dados
+              <input
+                type="file"
+                accept=".json"
+                onChange={importarDados}
+                style={{
+                  display: 'none'
+                }}
+              />
+            </label>
+
             <button
               onClick={limparTudo}
               style={{
@@ -960,21 +1090,23 @@ export default function GerenciadorFaltas() {
                 border: '2px solid #FFB8B8',
                 borderRadius: '12px',
                 fontSize: '0.9rem',
-                fontWeight: '600',
+                fontWeight: '700',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
-                backdropFilter: 'blur(10px)'
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px'
               }}
               onMouseEnter={(e) => {
                 e.target.style.background = '#FFB8B8';
-                e.target.style.borderColor = '#FFA0A0';
+                e.target.style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
                 e.target.style.background = '#FFD4D4';
-                e.target.style.borderColor = '#FFB8B8';
+                e.target.style.transform = 'translateY(0)';
               }}
             >
-              🗑️ Limpar Todos os Dados
+              🗑️ Limpar Tudo
             </button>
           </div>
         )}
