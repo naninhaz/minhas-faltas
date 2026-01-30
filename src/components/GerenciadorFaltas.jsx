@@ -297,18 +297,29 @@ export default function GerenciadorFaltas() {
           <button
             onClick={() => removerDisciplina(disciplina.id)}
             style={{
-              background: 'transparent',
-              border: 'none',
-              color: '#cbd5e0',
-              fontSize: '1.5rem',
+              background: '#FFD4D4',
+              border: '2px solid #FFB8B8',
+              color: '#C85A5A',
+              padding: '8px 14px',
+              borderRadius: '8px',
               cursor: 'pointer',
-              padding: '5px',
-              transition: 'color 0.2s'
+              fontWeight: '600',
+              fontSize: '0.85rem',
+              transition: 'all 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
             }}
-            onMouseEnter={(e) => e.target.style.color = '#fc8181'}
-            onMouseLeave={(e) => e.target.style.color = '#cbd5e0'}
+            onMouseEnter={(e) => {
+              e.target.style.background = '#FFB8B8';
+              e.target.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = '#FFD4D4';
+              e.target.style.transform = 'scale(1)';
+            }}
           >
-            ×
+            🗑️ Deletar
           </button>
         </div>
 
@@ -359,19 +370,30 @@ export default function GerenciadorFaltas() {
             onClick={() => abrirModalFalta(disciplina)}
             className="btn-acao"
             style={{
-              padding: '10px 20px',
+              padding: '12px 20px',
               background: config.gradiente,
               color: 'white',
-              border: 'none',
+              border: '2px solid ' + config.cor,
               borderRadius: '10px',
               fontSize: '0.95rem',
-              fontWeight: '600',
+              fontWeight: '700',
               cursor: 'pointer',
               transition: 'all 0.2s',
-              boxShadow: `0 4px 12px ${config.cor}40`
+              boxShadow: `0 6px 16px ${config.cor}50`,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-2px)';
+              e.target.style.boxShadow = `0 8px 20px ${config.cor}60`;
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.boxShadow = `0 6px 16px ${config.cor}50`;
             }}
           >
-            + Registrar Falta
+            📝 Registrar Falta
           </button>
         </div>
 
@@ -429,18 +451,27 @@ export default function GerenciadorFaltas() {
                   <button
                     onClick={() => removerFalta(disciplina.id, falta.id)}
                     style={{
-                      background: 'transparent',
-                      border: 'none',
-                      color: '#cbd5e0',
-                      fontSize: '1.2rem',
+                      background: '#FFE8E8',
+                      border: '1px solid #FFD4D4',
+                      color: '#C85A5A',
+                      padding: '6px 12px',
+                      borderRadius: '6px',
                       cursor: 'pointer',
-                      padding: '5px',
-                      transition: 'color 0.2s'
+                      fontWeight: '600',
+                      fontSize: '0.75rem',
+                      transition: 'all 0.2s',
+                      whiteSpace: 'nowrap'
                     }}
-                    onMouseEnter={(e) => e.target.style.color = '#fc8181'}
-                    onMouseLeave={(e) => e.target.style.color = '#cbd5e0'}
+                    onMouseEnter={(e) => {
+                      e.target.style.background = '#FFD4D4';
+                      e.target.style.transform = 'scale(1.05)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = '#FFE8E8';
+                      e.target.style.transform = 'scale(1)';
+                    }}
                   >
-                    ×
+                    Apagar
                   </button>
                 </div>
               ))}
@@ -534,17 +565,17 @@ export default function GerenciadorFaltas() {
             fontWeight: '700',
             color: '#6B4C8A',
             margin: '0 0 10px 0',
-            textShadow: '2px 2px 0px rgba(200, 150, 220, 0.2)',
             letterSpacing: '-2px'
           }}>
-            CONTROLE DE FALTAS
+            📚 MINHAS FALTAS
           </h1>
           <p style={{
             color: '#9B7FB3',
             fontSize: '1.1rem',
-            margin: 0
+            margin: 0,
+            fontWeight: '500'
           }}>
-            Gerencie suas ausências no SENAI e UFBA
+            Controle suas ausências e atividades
           </p>
         </div>
 
@@ -673,18 +704,29 @@ export default function GerenciadorFaltas() {
               style={{
                 padding: '14px 28px',
                 background: 'linear-gradient(135deg, #D4ABDD 0%, #E8D5F2 100%)',
-                color: '#6B4C8A',
-                border: 'none',
+                color: '#FFF',
+                border: '2px solid #D4ABDD',
                 borderRadius: '12px',
                 fontSize: '1rem',
-                fontWeight: '600',
+                fontWeight: '700',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
-                boxShadow: '0 4px 12px rgba(180, 120, 200, 0.2)',
-                whiteSpace: 'nowrap'
+                boxShadow: '0 6px 20px rgba(180, 120, 200, 0.3)',
+                whiteSpace: 'nowrap',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-3px)';
+                e.target.style.boxShadow = '0 8px 25px rgba(180, 120, 200, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 6px 20px rgba(180, 120, 200, 0.3)';
               }}
             >
-              Adicionar
+              ➕ Adicionar Disciplina
             </button>
           </div>
 

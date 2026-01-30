@@ -145,25 +145,36 @@ export default function Calendario({ disciplinas }) {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: '20px'
+        marginBottom: '20px',
+        gap: '15px'
       }}>
         <button
           onClick={() => mudarMes(-1)}
           style={{
-            background: '#E8D5F2',
-            border: 'none',
-            padding: '10px 16px',
+            background: 'linear-gradient(135deg, #D4ABDD 0%, #E8D5F2 100%)',
+            border: '2px solid #D4ABDD',
+            padding: '10px 18px',
             borderRadius: '10px',
             fontSize: '0.9rem',
-            fontWeight: '600',
+            fontWeight: '700',
             cursor: 'pointer',
-            color: '#6B4C8A',
-            transition: 'all 0.2s'
+            color: 'white',
+            transition: 'all 0.2s',
+            boxShadow: '0 4px 12px rgba(180, 120, 200, 0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px'
           }}
-          onMouseEnter={(e) => e.target.style.background = '#DCC0E8'}
-          onMouseLeave={(e) => e.target.style.background = '#E8D5F2'}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'translateY(-2px)';
+            e.target.style.boxShadow = '0 6px 16px rgba(180, 120, 200, 0.3)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'translateY(0)';
+            e.target.style.boxShadow = '0 4px 12px rgba(180, 120, 200, 0.2)';
+          }}
         >
-          ← Anterior
+          ◀ Anterior
         </button>
         
         <h3 style={{
@@ -171,7 +182,9 @@ export default function Calendario({ disciplinas }) {
           fontWeight: '700',
           color: '#6B4C8A',
           margin: 0,
-          textTransform: 'capitalize'
+          textTransform: 'capitalize',
+          minWidth: '150px',
+          textAlign: 'center'
         }}>
           {nomeMes}
         </h3>
@@ -179,20 +192,30 @@ export default function Calendario({ disciplinas }) {
         <button
           onClick={() => mudarMes(1)}
           style={{
-            background: '#E8D5F2',
-            border: 'none',
-            padding: '10px 16px',
+            background: 'linear-gradient(135deg, #D4ABDD 0%, #E8D5F2 100%)',
+            border: '2px solid #D4ABDD',
+            padding: '10px 18px',
             borderRadius: '10px',
             fontSize: '0.9rem',
-            fontWeight: '600',
+            fontWeight: '700',
             cursor: 'pointer',
-            color: '#6B4C8A',
-            transition: 'all 0.2s'
+            color: 'white',
+            transition: 'all 0.2s',
+            boxShadow: '0 4px 12px rgba(180, 120, 200, 0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px'
           }}
-          onMouseEnter={(e) => e.target.style.background = '#DCC0E8'}
-          onMouseLeave={(e) => e.target.style.background = '#E8D5F2'}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'translateY(-2px)';
+            e.target.style.boxShadow = '0 6px 16px rgba(180, 120, 200, 0.3)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'translateY(0)';
+            e.target.style.boxShadow = '0 4px 12px rgba(180, 120, 200, 0.2)';
+          }}
         >
-          Próximo →
+          Próximo ▶
         </button>
       </div>
 
@@ -480,20 +503,22 @@ export default function Calendario({ disciplinas }) {
                   border: '2px solid #E8D5F2',
                   borderRadius: '12px',
                   fontSize: '1rem',
-                  fontWeight: '600',
+                  fontWeight: '700',
                   cursor: 'pointer',
                   transition: 'all 0.2s'
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.background = '#F0E8F5';
                   e.target.style.borderColor = '#D4ABDD';
+                  e.target.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.background = 'white';
                   e.target.style.borderColor = '#E8D5F2';
+                  e.target.style.transform = 'translateY(0)';
                 }}
               >
-                Cancelar
+                ✕ Cancelar
               </button>
               <button
                 onClick={adicionarAtividade}
@@ -501,19 +526,25 @@ export default function Calendario({ disciplinas }) {
                   flex: 1,
                   padding: '14px',
                   background: 'linear-gradient(135deg, #D4ABDD 0%, #E8D5F2 100%)',
-                  color: '#6B4C8A',
-                  border: 'none',
+                  color: 'white',
+                  border: '2px solid #D4ABDD',
                   borderRadius: '12px',
                   fontSize: '1rem',
-                  fontWeight: '600',
+                  fontWeight: '700',
                   cursor: 'pointer',
                   transition: 'all 0.2s',
-                  boxShadow: '0 4px 12px rgba(180, 120, 200, 0.2)'
+                  boxShadow: '0 6px 16px rgba(180, 120, 200, 0.3)'
                 }}
-                onMouseEnter={(e) => e.target.style.transform = 'translateY(-2px)'}
-                onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = 'translateY(-3px)';
+                  e.target.style.boxShadow = '0 8px 20px rgba(180, 120, 200, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 6px 16px rgba(180, 120, 200, 0.3)';
+                }}
               >
-                Adicionar Atividade
+                ✓ Adicionar Atividade
               </button>
             </div>
           </div>
@@ -579,19 +610,28 @@ export default function Calendario({ disciplinas }) {
                     <button
                       onClick={() => removerAtividade(atividade.id)}
                       style={{
-                        background: 'transparent',
-                        border: 'none',
-                        color: '#DCC0E8',
-                        fontSize: '1.2rem',
+                        background: '#FFD4D4',
+                        border: '1px solid #FFB8B8',
+                        color: '#C85A5A',
+                        padding: '6px 10px',
+                        borderRadius: '6px',
                         cursor: 'pointer',
-                        padding: '5px',
-                        transition: 'color 0.2s',
-                        marginLeft: '10px'
+                        fontWeight: '600',
+                        fontSize: '0.75rem',
+                        transition: 'all 0.2s',
+                        marginLeft: '10px',
+                        whiteSpace: 'nowrap'
                       }}
-                      onMouseEnter={(e) => e.target.style.color = '#D4ABDD'}
-                      onMouseLeave={(e) => e.target.style.color = '#DCC0E8'}
+                      onMouseEnter={(e) => {
+                        e.target.style.background = '#FFB8B8';
+                        e.target.style.transform = 'scale(1.05)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.background = '#FFD4D4';
+                        e.target.style.transform = 'scale(1)';
+                      }}
                     >
-                      ×
+                      Apagar
                     </button>
                   </div>
                 );
